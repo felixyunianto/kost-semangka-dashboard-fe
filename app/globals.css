@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1b4f8a;
+  --color-primary-hover: #153e6d;
+  --color-primary-light: #2d6cb3;
+  --color-primary-soft: #e8f1f8;
+  --color-ink: #10243d;
+  --color-muted: #5b6b80;
+  --font-sans: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --animate-login-rise: login-rise 0.55s ease-out both;
+}
+
+@layer base {
+  html,
+  body {
+    min-height: 100%;
+  }
+
+  body {
+    @apply bg-white text-ink antialiased;
+  }
+
+  button:not(:disabled),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [type="button"]:disabled,
+  [type="submit"]:disabled,
+  [type="reset"]:disabled {
+    cursor: not-allowed;
+  }
+}
+
+@keyframes login-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

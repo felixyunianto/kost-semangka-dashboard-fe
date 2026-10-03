@@ -1,6 +1,12 @@
 {
   "name": "dashboard-fe",
   "version": "0.1.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "unrs-resolver"
+    ]
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",

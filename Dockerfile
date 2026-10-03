@@ -3,7 +3,7 @@ FROM node:24-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
-RUN corepack enable
+RUN corepack enable && corepack prepare pnpm@12.8.1 --activate
 
 FROM base AS deps
 

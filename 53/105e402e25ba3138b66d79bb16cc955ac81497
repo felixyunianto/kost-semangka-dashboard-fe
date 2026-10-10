@@ -1,0 +1,27 @@
+app/(dashboard)/rooms/components/RoomListTableSection.tsx
+  s_c17702fd5f078e::t_717876096b972d 19
+lib/services/rooms/list.ts
+  s_c17702fd5f078e::t_717876096b972d 5,47,49
+lib/entities/property.ts
+  s_c17702fd5f078e::t_717876096b972d 126
+app/(dashboard)/rooms/[propertyId]/page.tsx
+  s_c17702fd5f078e::t_717876096b972d 129,174-175,268
+app/(dashboard)/occupants/components/OccupantForm.tsx
+  s_c17702fd5f078e::t_717876096b972d 103
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "53105e402e25ba3138b66d79bb16cc955ac81497",
+  "prompts": {},
+  "sessions": {
+    "s_c17702fd5f078e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a0ad2c01-6a29-4175-a16b-8d78b409663a",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "felixyunianto <felixyunianto@gmail.com>"
+    }
+  }
+}

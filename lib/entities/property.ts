@@ -123,7 +123,7 @@ export type TRoomListPageFilter = {
   inventoryCondition?: TInventoryCondition | "";
 }
 
-export type TRoomParamList = TPaginationParam & TRoomListPageFilter
+export type TRoomParamList = TRoomListPageFilter
 
 export type TCreateRoomPayload = {
   name: string;

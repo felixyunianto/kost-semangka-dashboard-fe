@@ -14,10 +14,9 @@ import {
   DataTableCell,
   DataTableHead,
   DataTableHeaderCell,
-  PaginationBar,
 } from "@/components";
 
-import type { TPagination, TRoom, TRoomInventory } from "@/lib/entities";
+import type { TRoom, TRoomInventory } from "@/lib/entities";
 
 type TRentStatusKey = NonNullable<TRoom["rentStatus"]> | "NONE";
 
@@ -33,12 +32,10 @@ const RENT_STATUS_STYLE: Record<TRentStatusKey, { dot: string; text: string }> =
 type TRoomListTableSectionProps = {
   items: TRoom[];
   propertyId: string;
-  pagination?: TPagination;
   isLoading: boolean;
   isError: boolean;
   hasFilter: boolean;
   onRetry: () => void;
-  onPageChange: (page: number) => void;
   onDetail: (room: TRoom) => void;
 };
 
@@ -46,12 +43,10 @@ type TRoomListTableSectionProps = {
 const RoomListTableSection = ({
   items,
   propertyId,
-  pagination,
   isLoading,
   isError,
   hasFilter,
   onRetry,
-  onPageChange,
   onDetail,
 }: TRoomListTableSectionProps) => {
   const { t } = useI18n();
@@ -190,10 +185,6 @@ const RoomListTableSection = ({
           );
         })}
       </div>
-
-      {pagination ? (
-        <PaginationBar pagination={pagination} onPageChange={onPageChange} />
-      ) : null}
     </div>
   );
 };

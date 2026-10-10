@@ -9,7 +9,6 @@ import type { ParsedUrlQueryInput } from "querystring";
 
 import { Loading } from "@/components/Loading";
 import {
-  DEFAULT_PAGINATION,
   GET_PROPERTY_DETAIL_QUERY_KEY,
   GET_PROPERTY_LIST_QUERY_KEY,
   GET_ROOM_LIST_QUERY_KEY,
@@ -123,18 +122,12 @@ function PropertyRoomsPageContent({
   const [roomToDelete, setRoomToDelete] = useState<TRoom | null>(null);
   const [roomToInventory, setRoomToInventory] = useState<TRoom | null>(null);
 
-  const pageQuery = searchParams.get("page");
   const appliedFilter = readFilterFromSearch(searchParams);
-  const paramQuery = {
-    page: pageQuery ? Number.parseInt(pageQuery, 10) : DEFAULT_PAGINATION.page,
-    ...appliedFilter,
-  };
 
   const [filter, setFilter] = useState<TRoomListPageFilter>(appliedFilter);
 
-  const constructQueryParam = (opt?: { page?: number }) => {
+  const constructQueryParam = () => {
     return {
-      page: opt?.page || DEFAULT_PAGINATION.page,
       occupantName: filter.occupantName?.trim() || null,
       name: filter.name?.trim() || null,
       status: filter.status || null,
@@ -172,25 +165,14 @@ function PropertyRoomsPageContent({
     handleChangeQueryParam(constructQueryParam());
   };
 
-  const handleChangePage = (newPage: number) => {
-    handleChangeQueryParam(constructQueryParam({ page: newPage }));
-  };
-
   const propertyQuery = useQuery({
     queryKey: [...GET_PROPERTY_DETAIL_QUERY_KEY, propertyId],
     queryFn: () => getProperty(propertyId),
   });
 
   const roomsQuery = useQuery({
-    queryKey: [...GET_ROOM_LIST_QUERY_KEY, propertyId, paramQuery],
-    queryFn: () =>
-      getRooms(propertyId, {
-        ...appliedFilter,
-        page: Number.isFinite(paramQuery.page) && paramQuery.page > 0
-          ? paramQuery.page
-          : DEFAULT_PAGINATION.page,
-        limit: DEFAULT_PAGINATION.limit,
-      }),
+    queryKey: [...GET_ROOM_LIST_QUERY_KEY, propertyId, appliedFilter],
+    queryFn: () => getRooms(propertyId, appliedFilter),
   });
 
   const updateInventoryMutation = useMutation({
@@ -283,14 +265,12 @@ function PropertyRoomsPageContent({
           isSearching={roomsQuery.isFetching}
         />
         <RoomListTableSection
-          items={roomsQuery.data?.items ?? []}
+          items={roomsQuery.data ?? []}
           propertyId={propertyId}
-          pagination={roomsQuery.data?.pagination ?? DEFAULT_PAGINATION}
           isLoading={roomsQuery.isLoading}
           isError={roomsQuery.isError}
           hasFilter={hasRoomFilterValues(appliedFilter)}
           onRetry={handleRetry}
-          onPageChange={handleChangePage}
           onDetail={setRoomToInventory}
         />
       </div>

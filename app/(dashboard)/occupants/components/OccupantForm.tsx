@@ -94,15 +94,13 @@ export function OccupantForm({
     ],
     queryFn: () =>
       getRooms(form.propertyId, {
-        page: 1,
-        limit: 100,
         status: "available",
       }),
     enabled: !isEdit && Boolean(form.propertyId),
   });
 
   const properties = propertiesQuery.data?.items ?? [];
-  const rooms = roomsQuery.data?.items ?? [];
+  const rooms = roomsQuery.data ?? [];
 
   useEffect(() => {
     if (occupant) {

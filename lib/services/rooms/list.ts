@@ -2,7 +2,7 @@ import { getAPIEndpoint } from "@/lib/helpers";
 import { authFetch } from "../http";
 import { processResult, throwErrorUtil } from "../utils";
 
-import type { TApiResponse, TPaginated, TRoom, TRoomParamList } from "@/lib/entities";
+import type { TApiResponse, TRoom, TRoomParamList } from "@/lib/entities";
 
 const toOptionalNumber = (value?: string) => {
   if (!value?.trim()) {
@@ -23,8 +23,6 @@ const toRoomQuery = (filter: TRoomParamList) => {
   const maxWidth = toOptionalNumber(filter.maxWidth);
 
   return {
-    page: filter.page,
-    limit: filter.limit,
     ...(filter.occupantName?.trim() && { occupantName: filter.occupantName.trim() }),
     ...(filter.name?.trim() && { name: filter.name.trim() }),
     ...(filter.status === "available" || filter.status === "occupied"
@@ -46,13 +44,9 @@ export const getRooms = async (propertyId: string, filter: TRoomParamList) => {
   try {
     const url = getAPIEndpoint(`/properties/${propertyId}/rooms`, toRoomQuery(filter));
     const response = await authFetch(url);
-    const result: TApiResponse<TPaginated<TRoom>> = await processResult(response);
+    const result: TApiResponse<TRoom[]> = await processResult(response);
 
-    const isSuccess =
-      result.code === "SUCCESS" &&
-      result.data &&
-      Array.isArray(result.data.items) &&
-      Boolean(result.data.pagination);
+    const isSuccess = result.code === "SUCCESS" && Array.isArray(result.data);
 
     if (isSuccess) {
       return result.data;
